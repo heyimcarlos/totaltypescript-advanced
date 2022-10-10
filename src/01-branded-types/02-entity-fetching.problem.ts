@@ -31,11 +31,11 @@ const db: { users: User[]; posts: Post[] } = {
   ],
 };
 
-const getUserById = (id: string) => {
+const getUserById = (id: UserId) => {
   return db.users.find((user) => user.id === id);
 };
 
-const getPostById = (id: string) => {
+const getPostById = (id: PostId) => {
   return db.posts.find((post) => post.id === id);
 };
 
