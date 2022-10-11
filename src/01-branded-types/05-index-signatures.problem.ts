@@ -16,8 +16,8 @@ interface Post {
 }
 
 // Change this type definition!
-const db: Record<string, User | Post> = {};
-
+const db: { [postId: PostId]: Post; [userId: UserId]: User } = {};
+// const db: { [P in UserId | PostId]: P extends UserId ? User : Post } = {};
 it("Should let you add users and posts to the db by their id", () => {
   const postId = "post_1" as PostId;
   const userId = "user_1" as UserId;
@@ -31,14 +31,9 @@ it("Should let you add users and posts to the db by their id", () => {
     id: userId,
     name: "Miles",
   };
-
   const post = db[postId];
   const user = db[userId];
-
-  type tests = [
-    Expect<Equal<typeof post, Post>>,
-    Expect<Equal<typeof user, User>>,
-  ];
+  type tests = [Expect<Equal<typeof post, Post>>, Expect<Equal<typeof user, User>>];
 });
 
 it("Should fail if you try to add a user under a post id", () => {
