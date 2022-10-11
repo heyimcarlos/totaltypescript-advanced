@@ -6,5 +6,14 @@ import React from "react";
  * You'll need to do some detective work: check
  * out JSX.IntrinsicElements.
  */
-
-const element = <custom-element>hello world</custom-element>;
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      "custom-element": {
+        propOne: string;
+        children: React.ReactNode;
+      };
+    }
+  }
+}
+const element = <custom-element propOne="helloWorld">hello world</custom-element>;

@@ -12,6 +12,14 @@ import { Equal, Expect } from "../helpers/type-utils";
  * MY_SOLUTION_ENV_VAR property to the ProcessEnv interface
  */
 
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      MY_ENV_VAR: string;
+    }
+  }
+}
+
 process.env.MY_ENV_VAR = "Hello, world!";
 
 it("Should be declared as a string", () => {
