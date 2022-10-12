@@ -15,13 +15,12 @@ interface NormalUser extends User {
   role: "normal";
 }
 
-const assertUserIsAdmin = (
-  user: NormalUser | AdminUser,
-): asserts user is AdminUser => {
+function assertUserIsAdmin(user: NormalUser | AdminUser): asserts user is AdminUser {
   if (user.role !== "admin") {
     throw new Error("Not an admin user");
   }
-};
+  const b = user;
+}
 
 it("Should throw an error when it encounters a normal user", () => {
   const user: NormalUser = {

@@ -19,10 +19,12 @@ interface NormalUser extends User {
  * Clue - check the docs on assertion functions:
  * https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html#assertion-functions
  */
-function assertUserIsAdmin(user: NormalUser | AdminUser) {
+function assertUserIsAdmin(user: NormalUser | AdminUser): asserts user is AdminUser {
+  const a = user; // here user could be NormalUser or AdminUser
   if (user.role !== "admin") {
     throw new Error("Not an admin user");
   }
+  const b = user; // AdminUser is asserted here.
 }
 
 it("Should throw an error when it encounters a normal user", () => {

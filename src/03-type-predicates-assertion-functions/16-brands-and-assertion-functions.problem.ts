@@ -8,7 +8,8 @@ interface PasswordValues {
   confirmPassword: string;
 }
 
-function assertIsValidPassword(values: PasswordValues) {
+// @Info: Since we're asserting values to be valid, if no error is thrown typescript would understand the type is a valid type.
+function assertIsValidPassword(values: PasswordValues): asserts values is Valid<PasswordValues> {
   if (values.password !== values.confirmPassword) {
     throw new Error("Password is invalid");
   }

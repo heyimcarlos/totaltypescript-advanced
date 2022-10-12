@@ -8,7 +8,8 @@ interface PasswordValues {
   confirmPassword: string;
 }
 
-const isValidPassword = (values: PasswordValues) => {
+// Info: Instead of returning values.password and casting it's type to a branded password type, we can create a function that returns a boolean based on a password check, by typing the return value to a type predicate indicating the correct return type, if the function returns true, then typescript would know the type is valid.
+const isValidPassword = (values: PasswordValues): values is Valid<PasswordValues> => {
   if (values.password !== values.confirmPassword) {
     return false;
   }
