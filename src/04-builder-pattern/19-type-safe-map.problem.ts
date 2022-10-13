@@ -1,3 +1,4 @@
+import { A } from "ts-toolbelt";
 import { expect, it } from "vitest";
 
 /**
@@ -24,7 +25,12 @@ class TypeSafeStringMap<TMap extends Record<string, string> = {}> {
     return this.map[key];
   }
 
-  set<K extends string>(key: K, value: string): unknown {
+  // set<K extends string>(key: K, value: string): TypeSafeStringMap<Record<keyof TMap | K, string>> {
+  //   (this.map[key] as any) = value;
+
+  //   return this;
+  // }
+  set<K extends string>(key: K, value: string): TypeSafeStringMap<TMap & Record<K, string>> {
     (this.map[key] as any) = value;
 
     return this;
@@ -36,10 +42,12 @@ const map = new TypeSafeStringMap()
   .set("jools", "holland")
   .set("brandi", "carlile");
 
+const a = map.get("matt");
+
 it("Should not allow getting values which do not exist", () => {
   map.get(
     // @ts-expect-error
-    "jim",
+    "jim"
   );
 });
 

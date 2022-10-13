@@ -1,12 +1,8 @@
 import { Equal, Expect } from "../helpers/type-utils";
 
-export const makeSelectors = <
-  TSource,
-  TSelectors extends Record<string, (source: TSource) => any> = {},
->(
-  selectors: TSelectors,
-) => {
-  return selectors;
+export const makeSelectors = <TSource>() => {
+  return <TSelectors extends Record<string, (source: TSource) => any>>(selectors: TSelectors) =>
+    selectors;
 };
 
 interface Source {
@@ -27,19 +23,16 @@ interface Source {
  *
  * makeSelectors<Source>()({ ...selectorsGoHere })
  */
-const selectors = makeSelectors<Source>({
-  getFullName: (source) =>
-    `${source.firstName} ${source.middleName} ${source.lastName}`,
+const selectors = makeSelectors<Source>()({
+  getFullName: (source) => `${source.firstName} ${source.middleName} ${source.lastName}`,
   getFirstAndLastName: (source) => `${source.firstName} ${source.lastName}`,
   getFirstNameLength: (source) => source.firstName.length,
 });
 
+type A = typeof selectors["getFirstAndLastName"];
+
 type tests = [
   Expect<Equal<typeof selectors["getFullName"], (source: Source) => string>>,
-  Expect<
-    Equal<typeof selectors["getFirstAndLastName"], (source: Source) => string>
-  >,
-  Expect<
-    Equal<typeof selectors["getFirstNameLength"], (source: Source) => number>
-  >,
+  Expect<Equal<typeof selectors["getFirstAndLastName"], (source: Source) => string>>,
+  Expect<Equal<typeof selectors["getFirstNameLength"], (source: Source) => number>>
 ];

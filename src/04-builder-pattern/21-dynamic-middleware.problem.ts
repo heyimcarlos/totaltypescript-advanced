@@ -13,17 +13,19 @@ type Middleware<TInput, TOutput> = (input: TInput) => TOutput;
  */
 class DynamicMiddleware<TInput, TOutput> {
   private middleware: Middleware<any, any>[] = [];
+  // middleware = [(req: Request) => {...req, userId: 123}, (req: {...req, userId: 123}) => req]
 
   constructor(firstMiddleware: Middleware<TInput, TOutput>) {
     this.middleware.push(firstMiddleware);
   }
 
   // Clue: you'll need to make changes here!
-  use(middleware: Middleware<TInput, TOutput>) {
+  use<NextTOutput>(
+    middleware: Middleware<TOutput, NextTOutput>
+  ): DynamicMiddleware<TInput, NextTOutput> {
     this.middleware.push(middleware);
 
     return this as any;
-    //          ^ You'll need the 'as any'!
   }
 
   async run(input: TInput): Promise<TOutput> {
